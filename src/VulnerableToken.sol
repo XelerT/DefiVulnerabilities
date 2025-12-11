@@ -24,6 +24,8 @@ contract VulnerableToken {
     }
     
     function approve(address spender, uint256 amount) public returns (bool) {
+        // Vulnerable to approval race condition
+        // Does not require resetting to 0 before setting a new value
         allowances[msg.sender][spender] = amount;
         emit Approval(msg.sender, spender, amount);
         return true;
